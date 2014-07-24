@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="gbk">
+    <title>Document</title>
+    <script src="http://style.c.aliimg.com/fdevlib/js/lofty/port/lofty.js"></script>
+    <script src="data-test.js" charset="utf-8"></script>
+</head>
+<body>
+    <div id="content"></div>
+<script id="test" type="text/html">
+
+<div class="m-detail-action-operator box-shadow-top">
+    <div class="d-content">
+        {{if ((( visitorPicAuth == "open" || visitorPicAuth == "auth" ) && (visitorPriceAuth == "open" || visitorPriceAuth == "auth" )) && isMemberSupply == "false")}}
+        {{ if ( pageName !== 'description' )}}
+        <div class="unit-d-order-action">
+            {{if (isOfferSupportOnlineTrade == "true")}}
+                {{if (isOfferSupportMobileTrade == "true")}}
+                    {{if (hasCart == "true")}}
+                    <button class="do-cart do-order fui-btn-hint" data-type="cart" data-trace="order">加入进货单</button>
+                    {{/if}}
+                    <button class="do-purchase do-order fui-btn-important" data-type="purchase" data-trace="purchase">立即订购</button>
+                {{else if (isLimitedGroup == "true")}}
+                    <button class="do-nonsupport do-order fui-btn-disabled" data-type="nonsupport">{{limitedGroupStatusShow}}</button>
+                {{else}}
+                    <button class="do-nonsupport do-order fui-btn-disabled" data-type="nonsupport">暂不支持手机下单</button>
+                {{/if}}
+            {{else}}
+                {{if (isOffSale == "true")}}
+                <button class="do-nonsupport do-order fui-btn-disabled" data-type="nonsupport">此货品已下架</button>
+                {{else}}
+                <button class="do-nonsupport do-order fui-btn-disabled" data-type="nonsupport">暂不支持手机下单</button>
+                {{/if}}
+            {{/if}}
+            <button class="do-confirm fui-btn-important fd-hide" data-type="confirm">确定</button>
+        </div>
+        {{/if}}
+        {{/if}}
+        {{=wing.control('warmhole')}}
+    </div>
+</div>
+
+
+</script>
+
+<script type="text/javascript">
+    define(['util/template/2.0'],function(Template){
+        // var data = {
+        //     title: '基本例子',
+        //     isAdmin: true,
+        //     list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
+        // };
+        var html = Template('test', test);
+        document.getElementById('content').innerHTML = html;
+
+    });
+    
+</script>
+</body>
+</html>
