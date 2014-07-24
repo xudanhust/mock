@@ -33,6 +33,7 @@ var util = {
     },
 
     generateFile: function(pathName, fileName, data){
+        var json = (JSON.stringify(data)).replace(/'/g, '"');
         fs.writeFileSync(pathName + 'data-' + fileName + '.js', 'var ' + fileName + ' = ' + JSON.stringify(data));
     }
 };
