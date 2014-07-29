@@ -2,10 +2,10 @@ var fs = require('fs'),
     iconv = require('iconv-lite'),
     $ = require('jquery'),
     art = require('art-template'),
-    util = require('./util.js');
+    util = require('./util');
 
-// var openTag = "{{",
-//     closeTag = "}}",
+var openTag = "{{",
+    closeTag = "}}";
 //     loopStart = false;
 
 // var parser = function(code, data){
@@ -57,10 +57,26 @@ var fs = require('fs'),
 //     return data;
 // };
 
+// 处理对象中的值
+var handleValue = function(source, data){
+    for(var i in data){
+        var reg = eval('/' + i + '\\s*(!==|!=|==|===)\\s*\\S+\\s*/');
+        // console.log(reg);
+        var matchStr = source.match(reg);
+        if(matchStr){
+            matchStr = matchStr[0];
+            var value = matchStr.split(/['"]/)[1];
+            console.log(util.getRandomStr());
+            data[i] = value ? value : util.getRandomStr();    
+        }else{
+            data[i] = util.getRandomStr(); 
+        }
+    }
+    return data;
+}
+
 var arguments = process.argv.splice(2),
     pathname = arguments[0].slice(0, arguments[0].lastIndexOf('/') + 1),
-    headerCode = "'use strict';var $utils=this,$helpers=$utils.$helpers,",
-    footerCode = ",$string=$utils.$string",
     reg = /'use\sstrict';var\s\$utils=this,\$helpers=\$utils.\$helpers,(.*),\$string=\$utils.\$string/,
     html = util.readGBKText(arguments[0]),
     $doc = $(html),
@@ -69,24 +85,30 @@ var arguments = process.argv.splice(2),
 $script.each(function(i){
     var $this = $(this),
         id = $this.attr('id'),
-        source = $this.text(),
+        scriptSource = $this.text(),
+        source = '',
         data = {};
 
-    source = art.compile(source).toString();
+    // 使用art.compile方法编译模板代码
+    source = art.compile(scriptSource).toString();
+    // 将编译后的模板代码中的变量名匹配出来
     source = source.match(reg);
+    // console.log(source[1]);
     if(source){
         source = source[1];
         source = source.replace('$escape=$utils.$escape,', '');
         source = source.split(',');
+        // 初步生成对象
         for(var i=0, len=source.length; i<len; i++){
             var attr = source[i].split('=')[0];
-            data[attr] = util.getRandomStr();
-            // str = str.replace(/\s(!==|!=|==|===)\s/g, ':');
-            // str = str.split(':');
-            // data[str[0]] = str[1].replace(/['|"]/g, '');
-            // console.log(source[i]);
+            data[attr] = '';
         }
     }
+
+    // 处理对象中的值
+    data = handleValue(scriptSource, data);
+
+
     // console.log(source);
 
 
@@ -103,6 +125,6 @@ $script.each(function(i){
     // });
 
     console.log(data);
-    // util.generateFile(pathname, id, data);
+    util.generateFile(pathname, id, data);
 });
 

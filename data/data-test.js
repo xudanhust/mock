@@ -1,0 +1,1 @@
+var test = {"visitorPicAuth":"open","visitorPriceAuth":"open","isMemberSupply":"false","pageName":"description","isOfferSupportOnlineTrade":"true","isOfferSupportMobileTrade":"true","hasCart":"true","isLimitedGroup":"true","limitedGroupStatusShow":"value1","isOffSale":"true","$each":"value8","list":"value7","value":"value7","i":"value0"}

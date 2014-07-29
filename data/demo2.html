@@ -33,6 +33,11 @@
                 <button class="do-nonsupport do-order fui-btn-disabled" data-type="nonsupport">暂不支持手机下单</button>
                 {{/if}}
             {{/if}}
+            <ul>
+        {{each list as value i}}
+            <li>索引 {{i + 1}} ：{{value}}</li>
+        {{/each}}
+    </ul>
             <button class="do-confirm fui-btn-important fd-hide" data-type="confirm">确定</button>
         </div>
         {{/if}}
@@ -46,14 +51,8 @@
 
 <script type="text/javascript">
     define(['util/template/2.0'],function(Template){
-        // var data = {
-        //     title: '基本例子',
-        //     isAdmin: true,
-        //     list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
-        // };
         var html = Template('test', test);
         document.getElementById('content').innerHTML = html;
-
     });
     
 </script>
